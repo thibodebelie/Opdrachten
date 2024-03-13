@@ -88,9 +88,4 @@ public class CandycrushModelTests {
         assertEquals(model.getSpeelbord(), zeroList);
 
     }
-
-
-
-//    @Test
-
 }
