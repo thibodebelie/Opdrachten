@@ -1,5 +1,7 @@
 package be.kuleuven.candycrush.model;
 
+import be.kuleuven.CheckNeighboursInGrid;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
@@ -15,8 +17,8 @@ public class CandycrushModel {
     public CandycrushModel(String speler) {
         this.speler = speler;
         speelbord = new ArrayList<>();
-        width = 4;
-        height = 4;
+        width = 10;
+        height = 10;
 
         for (int i = 0; i < width*height; i++){
             Random random = new Random();
@@ -65,6 +67,16 @@ public class CandycrushModel {
             speelbord.set(index,randomGetal);
         }else{
             System.out.println("model:candyWithIndexSelected:indexWasMinusOne");
+        }
+    }
+
+    public void changeNeigbours(int indexToCheck){
+        ArrayList<Integer> buren = (ArrayList<Integer>) CheckNeighboursInGrid.getSameNeighboursIds(speelbord,width, height,indexToCheck);
+        if(buren.size() >= 1){
+            candyWithIndexSelected(indexToCheck);
+            for(Integer i : buren){
+                candyWithIndexSelected(i);
+            }
         }
     }
 

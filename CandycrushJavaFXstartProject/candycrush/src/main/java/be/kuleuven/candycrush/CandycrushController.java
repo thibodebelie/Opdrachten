@@ -56,7 +56,7 @@ public class CandycrushController {
 
     public void onCandyClicked(MouseEvent me){
         int candyIndex = view.getIndexOfClicked(me);
-        model.candyWithIndexSelected(candyIndex);
+        model.changeNeigbours(candyIndex);
         update();
     }
 

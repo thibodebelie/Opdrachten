@@ -1,0 +1,60 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "be.kuleuven",
+    "module": "CheckNeigboursInGrid",
+    "version": "1.0-SNAPSHOT",
+    "attributes": {
+      "org.gradle.status": "integration"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "8.6"
+    }
+  },
+  "variants": [
+    {
+      "name": "apiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 21,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api"
+      },
+      "files": [
+        {
+          "name": "CheckNeigboursInGrid-1.0-SNAPSHOT.jar",
+          "url": "CheckNeigboursInGrid-1.0-SNAPSHOT.jar",
+          "size": 2104,
+          "sha512": "5887f682d51fc356e31a8dc2d8156392a68900bb4d1ff610871a4d6a048f9e4e90a344479bb20f1ae0dd682f9ea8fcac09a9f5030b6621d7fe9ea304c27f4769",
+          "sha256": "c79c8cff576975728807692b574980cf109c6fa16289a8203ec59efd41fb3f4b",
+          "sha1": "481367679237c2e6c1ebb24f439a42a3b1ada154",
+          "md5": "aff342f57f9150e63300d15f1e38223e"
+        }
+      ]
+    },
+    {
+      "name": "runtimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 21,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "CheckNeigboursInGrid-1.0-SNAPSHOT.jar",
+          "url": "CheckNeigboursInGrid-1.0-SNAPSHOT.jar",
+          "size": 2104,
+          "sha512": "5887f682d51fc356e31a8dc2d8156392a68900bb4d1ff610871a4d6a048f9e4e90a344479bb20f1ae0dd682f9ea8fcac09a9f5030b6621d7fe9ea304c27f4769",
+          "sha256": "c79c8cff576975728807692b574980cf109c6fa16289a8203ec59efd41fb3f4b",
+          "sha1": "481367679237c2e6c1ebb24f439a42a3b1ada154",
+          "md5": "aff342f57f9150e63300d15f1e38223e"
+        }
+      ]
+    }
+  ]
+}
