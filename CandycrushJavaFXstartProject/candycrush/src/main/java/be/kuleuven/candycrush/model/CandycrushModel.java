@@ -11,9 +11,22 @@ public class CandycrushModel {
     private ArrayList<Integer> speelbord;
     private int width;
     private int height;
+    private int score;
 
 
 
+    public CandycrushModel(String speler , int width , int height) {
+        this.speler = speler;
+        speelbord = new ArrayList<>();
+        this.width = width;
+        this.height = height;
+
+        for (int i = 0; i < width*height; i++){
+            Random random = new Random();
+            int randomGetal = random.nextInt(5) + 1;
+            speelbord.add(randomGetal);
+        }
+    }
     public CandycrushModel(String speler) {
         this.speler = speler;
         speelbord = new ArrayList<>();
@@ -27,8 +40,10 @@ public class CandycrushModel {
         }
     }
 
+
+
     public static void main(String[] args) {
-        CandycrushModel model = new CandycrushModel("arne");
+        CandycrushModel model = new CandycrushModel("Thibo",10,10);
         int i = 1;
         Iterator<Integer> iter = model.getSpeelbord().iterator();
         while(iter.hasNext()){
@@ -72,7 +87,7 @@ public class CandycrushModel {
 
     public void changeNeigbours(int indexToCheck){
         ArrayList<Integer> buren = (ArrayList<Integer>) CheckNeighboursInGrid.getSameNeighboursIds(speelbord,width, height,indexToCheck);
-        if(buren.size() >= 1){
+        if(buren.size() >= 3){
             candyWithIndexSelected(indexToCheck);
             for(Integer i : buren){
                 candyWithIndexSelected(i);
@@ -82,5 +97,12 @@ public class CandycrushModel {
 
     public int getIndexFromRowColumn(int row, int column) {
         return column+row*width;
+    }
+    public void verhoogScore(){
+        score++;
+    }
+
+    public int getScore(){
+        return this.score;
     }
 }

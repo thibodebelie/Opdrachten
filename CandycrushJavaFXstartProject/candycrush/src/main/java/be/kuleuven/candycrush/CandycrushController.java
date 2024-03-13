@@ -5,6 +5,7 @@ import java.util.ResourceBundle;
 
 import be.kuleuven.candycrush.model.CandycrushModel;
 import be.kuleuven.candycrush.view.CandycrushView;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -35,8 +36,12 @@ public class CandycrushController {
     @FXML
     private TextField textInput;
 
+    @FXML
+    private Label Score;
+
     private CandycrushModel model;
     private CandycrushView view;
+
     @FXML
     void initialize() {
         assert Label != null : "fx:id=\"Label\" was not injected: check your FXML file 'candycrush-view.fxml'.";
@@ -50,14 +55,28 @@ public class CandycrushController {
         view.setOnMouseClicked(this::onCandyClicked);
     }
 
+    @FXML
+    void onStartButtonClicked(ActionEvent event) {
+        // Initialize model and view
+        model = new CandycrushModel("Test");
+        view = new CandycrushView(model);
+        speelbord.getChildren().add(view);
+        view.setOnMouseClicked(this::onCandyClicked);
+
+        // Set initial score label
+        Score.setText("Score: 0");
+
+    }
+
     public void update(){
         view.update();
     }
 
     public void onCandyClicked(MouseEvent me){
         int candyIndex = view.getIndexOfClicked(me);
+        model.verhoogScore();
         model.changeNeigbours(candyIndex);
+        Score.setText("Score:" + Integer.toString(model.getScore()));
         update();
     }
-
 }
