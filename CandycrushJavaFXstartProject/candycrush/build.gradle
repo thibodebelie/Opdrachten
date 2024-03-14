@@ -12,7 +12,7 @@ version '1.0-SNAPSHOT'
 repositories {
     mavenCentral()
     maven{
-        url = "C:\\Users\\thibo\\Documents\\Unif\\Ba2\\Semester 2 (2023 - 2024)\\Software Engineering Skills\\Opdracht 1\\jar-file"
+        url = "..\\jar-file"
     }
 }
 
