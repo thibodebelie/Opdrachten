@@ -13,7 +13,10 @@ jobs:
     runs-on: windows-latest
     permissions:
       contents: read
-
+    defaults:
+      run:
+        working-directory: ./CandycrushJavaFXstartProject/candycrush
+      
     steps:
     - uses: actions/checkout@v4
     - name: Set up JDK 21
