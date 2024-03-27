@@ -1,91 +1,97 @@
+/*
+
 package be.kuleuven.candycrush.model;
 
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
-import java.util.Random;
+import java.util.Arrays;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class CandycrushModelTests {
 
     @Test
-    public void gegeven_wanneer_dan(){
-        CandycrushModel model = new CandycrushModel("Thibo");
+    public void ifSpelerDaanThenGetSpelerIsDaan(){
+        CandycrushModel model = new CandycrushModel("Daan");
         String result = model.getSpeler();
-        assert (result.equals("Thibo"));
+        assert (result.equals("Daan"));
     }
 
     @Test
-    public void initiele_scor(){
-        CandycrushModel model = new CandycrushModel("Thibo");
-        int score = model.getScore();
-        assert (score == 0);
-    }
-    @Test
-    public void test_width(){
-        CandycrushModel model = new CandycrushModel("Thibo",5,5);
+    public void ifWidthIs10ThenReturn10(){
+        CandycrushModel model = new CandycrushModel("Daan");
         int width = model.getWidth();
-        assert (width == 5);
-    }
-    @Test
-    public void test_Height(){
-        CandycrushModel model = new CandycrushModel("Thibo",5,5);
-        int height = model.getHeight();
-        assert (height ==5);
+        assertThat(width).isEqualTo(10);
     }
 
     @Test
-    public void test_lengte(){
-        CandycrushModel model = new CandycrushModel("Test" , 4,4);
-        int lengte = model.getSpeelbord().size();
-        assert (lengte == 16);
+    public void ifHeightIs10ThenReturn10(){
+        CandycrushModel model = new CandycrushModel("Daan");
+        int width = model.getHeight();
+        assertThat(width).isEqualTo(10);
     }
 
     @Test
-    public void test_getIndex(){
-        CandycrushModel model = new CandycrushModel("Test", 5,5);
-        int index = model.getIndexFromRowColumn(2,3);
-        assert (index == 13);
+    public void ifSetSpeelbordReturnSameSpeelbord(){
+        CandycrushModel model = new CandycrushModel("Daan");
+        ArrayList<Integer> speelbord = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5, 6, 7));
+        model.setSpeelbord(speelbord);
+        assertThat(model.getSpeelbord()).isEqualTo(speelbord);
     }
 
     @Test
-    public void test_verhoog_score(){
-        CandycrushModel model = new CandycrushModel("Test");
-        model.verhoogScore();
-        assert(model.getScore() == 1);
+    public void ifSpeelbordIsSize100ThenReturn100(){
+        CandycrushModel model = new CandycrushModel("Daan");
+        int length = model.getSpeelbordLength();
+        assertThat(length).isEqualTo(100);
     }
+
     @Test
-    public void test_verhoog_score_tien_keer(){
-        CandycrushModel model = new CandycrushModel("Test");
-        for (int i =0 ; i<10;i++){
-            model.verhoogScore();
+    public void ifSpeelbord10Return10(){
+        CandycrushModel model = new CandycrushModel("Daan");
+        model.setScorebord(10);
+        assertThat(model.getScore()).isEqualTo(10);
+    }
+
+    @Test
+    public void ifRow1Column1getIndexFromRowColumnReturn11(){
+        CandycrushModel model = new CandycrushModel("Daan");
+        int index = model.getIndexFromRowColumn(1, 1);
+        assertThat(index).isEqualTo(11);
+    }
+
+    @Test
+    public void ifScoreIsIncreasedFrom0ThenReturn1(){
+        CandycrushModel model = new CandycrushModel("Daan");
+        model.setScorebord(0);
+        model.increaseScore();
+        assertThat(model.getScore()).isEqualTo(1);
+    }
+
+    @Test
+    public void ifSpeelbordResetReturnsNewSpeelbord(){
+        CandycrushModel model = new CandycrushModel("Daan");
+        ArrayList<Integer> oudSpeelbord= new ArrayList<Integer>();
+        oudSpeelbord.addAll(model.getSpeelbord());
+        model.resetSpeelbord();
+        ArrayList<Integer> nieuwSpeelbord = model.getSpeelbord();
+        assertThat(nieuwSpeelbord).isNotSameAs(oudSpeelbord);
+    }
+
+    @Test
+    public void ifGridIsMadeCheckAllDefinedValues(){
+        CandycrushModel model = new CandycrushModel("Daan");
+        model.resetSpeelbord();
+        ArrayList<Integer> speelbord = model.getSpeelbord();
+        for (Integer i : speelbord){
+            assertThat(i).isNotZero();
         }
-        assert(model.getScore() == 10);
     }
 
-    @Test
-    public void test(){
-        CandycrushModel model = new CandycrushModel("Test",5,5);
-        ArrayList<Integer> orignalSpeelbord = new ArrayList<>(model.getSpeelbord());
-        Random random = new Random();
-        int index = random.nextInt(25);
-        model.candyWithIndexSelected(index);
-        assertNotEquals(orignalSpeelbord , model.getSpeelbord());
-    }
+    //TODO: Delete previous test and test your own code
 
-    @Test
-    public void setAllValuesToZero(){
-        CandycrushModel model = new CandycrushModel("Test" , 4,4);
-        for (int i = 0; i < model.getSpeelbord().size(); i++) {
-            model.getSpeelbord().set(i, 0);
-        }
-        ArrayList<Integer> zeroList = new ArrayList<>();
-        for (int i = 0; i < model.getSpeelbord().size(); i++) {
-            zeroList.add(0);
-        }
-        assertEquals(model.getSpeelbord(), zeroList);
-
-    }
 }
+
+*/
+

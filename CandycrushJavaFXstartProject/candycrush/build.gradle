@@ -42,7 +42,8 @@ dependencies {
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
-    implementation group:'be.kuleuven' , name:'CheckNeigboursInGrid', version:'1.0-SNAPSHOT'
+    testImplementation group: 'org.assertj' , name: 'assertj-core', version: '3.25.3'
+
 }
 
 test {

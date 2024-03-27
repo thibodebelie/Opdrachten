@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import be.kuleuven.candycrush.model.CandycrushModel;
+import be.kuleuven.candycrush.model.Position;
 import be.kuleuven.candycrush.view.CandycrushView;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -73,10 +74,8 @@ public class CandycrushController {
     }
 
     public void onCandyClicked(MouseEvent me){
-        int candyIndex = view.getIndexOfClicked(me);
-        model.verhoogScore();
-        model.changeNeigbours(candyIndex);
-        Score.setText("Score:" + Integer.toString(model.getScore()));
+        Position candyposition = view.getPositionOfClicked(me);
+        model.changeNeighbours(candyposition);
         update();
     }
 }
