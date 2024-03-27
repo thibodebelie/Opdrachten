@@ -83,7 +83,7 @@ public class CandycrushModel {
                 score++;
             }
         }
-        }
+    }
     public Iterable<Position> getSameNeighbourPositions(Position position){
         ArrayList <Position> neighbours = new ArrayList<Position>();
         for(Position p : position.neighbourPosition()){
