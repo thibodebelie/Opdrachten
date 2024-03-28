@@ -14,6 +14,10 @@ public class Board <T>{
         fill(CellCreator);
     }
 
+    public BoardSize getBoardSize() {
+        return boardSize;
+    }
+
     public T getCellAt(Position position) {
         if (position.toIndex() <= list.size()) {
             return list.get(position.toIndex());

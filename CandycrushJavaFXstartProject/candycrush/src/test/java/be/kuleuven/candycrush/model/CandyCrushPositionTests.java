@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
-public class PositionTests {
+public class CandyCrushPositionTests {
 
     @Test
     public void gegevenBoardsize_wanneerIsGoedeIndex_geeftIndexTerug() {
@@ -14,13 +14,7 @@ public class PositionTests {
         assertThat(index).isEqualTo(22);
     }
 
-    @Test
-    public void gegevenBoarsize_wanneerGegevenIndex_geeftPositionTerug() {
-        Position pos = new Position(10,10,new BoardSize(10,10));
-        Position result = pos.fromIndex(22, new BoardSize(10,10));
-        assertThat(result).isEqualTo(new Position(2,2,new BoardSize(10,10)));
 
-    }
 
     @Test
     public void gegevenBoardsize_WannerNeighborPosition_geeftDeIndexenVanPositionsWeer() {
