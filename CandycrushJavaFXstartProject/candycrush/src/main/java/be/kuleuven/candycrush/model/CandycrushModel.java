@@ -9,38 +9,32 @@ import java.util.Random;
 
 public class CandycrushModel {
     private String speler;
-    private ArrayList<Candy> speelbord;
 
-    private BoardSize boardSize;
     private int score;
+
+    private Board<Candy> board;
 
 
 
     public CandycrushModel(String speler) {
         this.speler = speler;
-        speelbord = new ArrayList<>();
-        this.boardSize = new BoardSize(10,10);
-        for (int i = 0; i < boardSize.width()* boardSize.height(); i++){
-            speelbord.add(getRandomCandy());
-        }
+        this.board = new Board<>(new BoardSize(10 ,10), this::getRandomCandy);
     }
+
 
     public String getSpeler() {
         return speler;
     }
 
-    public ArrayList<Candy> getSpeelbord() {
-        return speelbord;
-    }
 
     public BoardSize getBoardSize(){
-        return boardSize;
+        return board.boardSize;
     }
 
     public void candyWithIndexSelected(Position position){
         //TODO: update method so it also changes direct neighbours of same type and updates score
         if (position.toIndex() != -1){
-            speelbord.set(position.toIndex(),getRandomCandy());
+            board.replaceCellAt(position , getRandomCandy(null));
         }else{
             System.out.println("model:candyWithIndexSelected:indexWasMinusOne");
         }
@@ -54,7 +48,7 @@ public class CandycrushModel {
         return this.score;
     }
 
-    private Candy getRandomCandy(){
+    private Candy getRandomCandy(Position position){
         Random random = new Random();
         int rand_int = random.nextInt(9) + 1;
         Candy randomCandy = switch (rand_int) {
@@ -69,7 +63,7 @@ public class CandycrushModel {
     }
 
     public Candy getCandyFromPosition(Position position){
-        return speelbord.get(position.toIndex());
+        return board.getCellAt(position);
     }
 
 
