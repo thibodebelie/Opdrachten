@@ -1,16 +1,23 @@
 package be.kuleuven.candycrush.model;
 
-import java.util.ArrayList;
-import java.util.Collections;
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.Multimaps;
+import javafx.geometry.Pos;
+
+import java.util.*;
 import java.util.function.Function;
+import com.google.common.collect.Multimap;
 
 public class Board <T>{
-    ArrayList<T> list;
+
+    private Map<Position , T> list = new HashMap<>();
+
+    private Multimap<T, Position> reverseList = ArrayListMultimap.create();
+
     BoardSize boardSize;
 
     public Board(BoardSize boardSize, Function<Position , T> CellCreator) {
         this.boardSize = boardSize;
-        this.list = new ArrayList<>(Collections.nCopies(boardSize.height()*boardSize.width() , null));
         fill(CellCreator);
     }
 
@@ -18,16 +25,27 @@ public class Board <T>{
         return boardSize;
     }
 
+    public Multimap<T, Position> getReverseList() {
+        return reverseList;
+    }
+
+    public Map<Position, T> getList() {
+        return list;
+    }
+
     public T getCellAt(Position position) {
         if (position.toIndex() <= list.size()) {
-            return list.get(position.toIndex());
+            return list.get(position);
         } else {
             throw new IndexOutOfBoundsException();
         }
     }
     public void replaceCellAt(Position position, T newCell){
         if (position.toIndex() <= list.size()) {
-            list.set(position.toIndex() , newCell);
+            T temp = list.get(position);
+            reverseList.remove(temp , position);
+            reverseList.put(newCell , position);
+            list.replace(position,newCell);
         } else {
             throw new IndexOutOfBoundsException();
         }
@@ -35,7 +53,9 @@ public class Board <T>{
     public void fill(Function<Position , T> cellCreator){
         for(int i = 0 ; i< boardSize.height();i++){
             for(int j = 0; j <boardSize.width();j++){
-                list.set(j + (boardSize.width()*i), cellCreator.apply(new Position(i,j,boardSize)));
+                Position position = new Position(i,j , getBoardSize());
+                list.put(position , cellCreator.apply(position));
+                reverseList.put(cellCreator.apply(position), position);
             }
         }
     }
@@ -52,6 +72,9 @@ public class Board <T>{
         else{
             throw new IllegalArgumentException("Different boardsize");
         }
+    }
+    public List<Position> getPositionsOfElement(T cell){
+        return Collections.unmodifiableList((List<Position>) reverseList.get(cell));
     }
 
 }

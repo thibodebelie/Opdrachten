@@ -11,9 +11,6 @@ version '1.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
-    maven{
-        url = "..\\..\\jar-file"
-    }
 }
 
 ext {
@@ -39,6 +36,9 @@ javafx {
 
 dependencies {
     implementation('org.controlsfx:controlsfx:11.1.2')
+    // https://mvnrepository.com/artifact/com.google.guava/guava
+    implementation group: 'com.google.guava', name: 'guava', version: '33.1.0-jre'
+
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
