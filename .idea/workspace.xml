@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="0d4fbed4-9b53-4886-bdc5-45ab4573aebe" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/CandycrushJavaFXstartProject/candycrush/src/test/java/be/kuleuven/candycrush/model/CandycrushModelTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/CandycrushJavaFXstartProject/candycrush/src/test/java/be/kuleuven/candycrush/model/CandycrushModelTests.java" afterDir="false" />
-    </list>
+    <list default="true" id="0d4fbed4-9b53-4886-bdc5-45ab4573aebe" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -29,7 +27,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/thibo/Documents/Unif/Ba2/Semester 2 (2023 - 2024)/Software Engineering Skills/Opdracht 1/CandycrushJavaFXstartProject/candycrush",
+    "last_opened_file_path": "C:/Users/thibo/Documents/Unif/Ba2/Semester 2 (2023 - 2024)/Software Engineering Skills/Opdracht_SES/Opdrachten/CandycrushJavaFXstartProject/candycrush",
     "nodejs_package_manager_path": "npm",
     "vue.rearranger.settings.migration": "true"
   }
@@ -44,6 +42,7 @@
       <updated>1709153174120</updated>
       <workItem from="1709153175169" duration="91000" />
       <workItem from="1711552095086" duration="268000" />
+      <workItem from="1715009607897" duration="78000" />
     </task>
     <servers />
   </component>
