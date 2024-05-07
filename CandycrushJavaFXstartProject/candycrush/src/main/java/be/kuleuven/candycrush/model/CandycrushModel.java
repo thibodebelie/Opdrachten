@@ -3,6 +3,7 @@ package be.kuleuven.candycrush.model;
 
 import be.kuleuven.candycrush.model.candies.*;
 import com.google.common.collect.Streams;
+import javafx.geometry.Pos;
 import javafx.scene.control.skin.SliderSkin;
 
 import java.util.*;
@@ -102,6 +103,9 @@ public class CandycrushModel {
     }
 
     public boolean firstTwoHaveSameCandy(Candy candy, Stream<Position> positions){
+        if (candy instanceof EmptyCandy){
+            return false;
+        }
         return positions.limit(2).allMatch(position -> candy.equals(getCandyFromPosition(position)));
     }
 
@@ -127,5 +131,59 @@ public class CandycrushModel {
         return pos.walkDown().takeWhile(position -> getCandyFromPosition(position).equals(getCandyFromPosition(pos)))
                 .collect(Collectors.toList());
     }
+
+    public void clearMatch(List<Position> match){
+        if (!match.isEmpty() && match != null ){
+            board.replaceCellAt(match.getFirst(),new EmptyCandy());
+            clearMatch(match.subList(1,match.size()));
+        }
+    }
+    public void fallDownTo(Position pos) {
+        if (pos.y() > 0) { //Niet bovenste rij
+            int abovePositionY = pos.y() - 1;
+            if (abovePositionY >= 0 && abovePositionY < board.getBoardSize().height()) { //Check for valid range
+                Position abovePosition = new Position(pos.x(), abovePositionY, board.getBoardSize());
+                if (board.getCellAt(abovePosition) != null) {
+                    board.replaceCellAt(pos, board.getCellAt(abovePosition));
+                    board.replaceCellAt(abovePosition, new EmptyCandy());
+                    fallDownTo(abovePosition);
+                }
+            }
+        }
+    }
+
+    public boolean updateBoard(){
+        var match = findAllMatches();
+
+        if(!match.isEmpty()){
+            match.forEach(this::clearMatch);
+            match.forEach(list -> list.forEach(this::fallDownTo));
+            var newMatch = findAllMatches();
+            return updateBoard(newMatch);
+        }
+        return false;
+    }
+
+    public boolean updateBoard(Set<List<Position>> match){
+        if (match.isEmpty()){
+            return true;
+        }
+        else{
+            match.forEach(this::clearMatch);
+            match.forEach(list -> list.forEach(this::fallDownTo));
+            var newMatch = findAllMatches();
+            if (newMatch.isEmpty()){
+                return true;
+            }
+            else{
+                return updateBoard(newMatch);
+            }
+        }
+
+    }
+
+
+
+
 
 }

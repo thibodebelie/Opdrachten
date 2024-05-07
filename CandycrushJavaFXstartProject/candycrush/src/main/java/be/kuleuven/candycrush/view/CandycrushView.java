@@ -63,6 +63,11 @@ public class CandycrushView extends Region {
                     throw new IllegalStateException("Unexpected value: " + ((normalCandy) candy).color());
             }
         }
+        else if (candy instanceof EmptyCandy){
+            Rectangle rectangle =  new Rectangle(widthCandy*0.9,heigthCandy*0.9);
+            rectangle.setFill(Color.TRANSPARENT);
+            return rectangle;
+        }
         else{
             switch (candy) {
                 case MultiCandy multiCandy -> {

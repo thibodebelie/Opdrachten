@@ -76,7 +76,8 @@ public class CandycrushController {
     public void onCandyClicked(MouseEvent me){
         Position candyposition = view.getPositionOfClicked(me);
         model.changeNeighbours(candyposition);
-        System.out.println("Matches" + model.findAllMatches());
+        System.out.println("update: " + model.updateBoard());
         update();
     }
+
 }
