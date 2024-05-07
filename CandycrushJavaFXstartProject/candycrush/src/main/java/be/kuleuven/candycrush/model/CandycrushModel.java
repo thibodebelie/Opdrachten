@@ -2,10 +2,13 @@ package be.kuleuven.candycrush.model;
 
 
 import be.kuleuven.candycrush.model.candies.*;
+import com.google.common.collect.Streams;
+import javafx.scene.control.skin.SliderSkin;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Random;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 public class CandycrushModel {
     private String speler;
@@ -20,7 +23,6 @@ public class CandycrushModel {
         this.speler = speler;
         this.board = new Board<>(new BoardSize(10 ,10), this::getRandomCandy);
     }
-
 
     public String getSpeler() {
         return speler;
@@ -87,6 +89,43 @@ public class CandycrushModel {
             }
         }
         return neighbours;
+    }
+
+    public Set<List<Position>> findAllMatches(){
+        var streamHor = horizontalStartingPosition()
+                .map(this::longestMatchToRight)
+                .filter(list->list.size() >=3);
+        var streamVer = verticalStartingPosition()
+                .map(this::longestMatchDown)
+                .filter(list->list.size() >=3);
+        return Streams.concat(streamHor,streamVer).collect(Collectors.toSet());
+    }
+
+    public boolean firstTwoHaveSameCandy(Candy candy, Stream<Position> positions){
+        return positions.limit(2).allMatch(position -> candy.equals(getCandyFromPosition(position)));
+    }
+
+
+    public Stream<Position> horizontalStartingPosition() {
+        return IntStream.range(0, getBoardSize().width() * getBoardSize().height())
+                .mapToObj(i -> new Position(i % getBoardSize().width(), i / getBoardSize().width(), this.getBoardSize()))
+                .filter(pos -> pos.x() >= 0 && firstTwoHaveSameCandy(getCandyFromPosition(pos), pos.walkRight()));
+    }
+
+    public Stream<Position> verticalStartingPosition() {
+        return IntStream.range(0, getBoardSize().width() * getBoardSize().height())
+                .mapToObj(i -> new Position(i % getBoardSize().width(), i / getBoardSize().width(), this.getBoardSize()))
+                .filter(pos -> pos.y() >= 0 && firstTwoHaveSameCandy(getCandyFromPosition(pos), pos.walkDown()));
+    }
+
+
+    public List<Position> longestMatchToRight(Position pos){
+        return pos.walkRight().takeWhile(position -> getCandyFromPosition(position).equals(getCandyFromPosition(pos)))
+                .collect(Collectors.toList());
+    }
+    public List<Position> longestMatchDown(Position pos){
+        return pos.walkDown().takeWhile(position -> getCandyFromPosition(position).equals(getCandyFromPosition(pos)))
+                .collect(Collectors.toList());
     }
 
 }

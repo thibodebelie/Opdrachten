@@ -1,6 +1,9 @@
 package be.kuleuven.candycrush.model;
 
 import java.util.ArrayList;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 public record Position(int x, int y, BoardSize boardSize) {
     public Position {
@@ -38,5 +41,37 @@ public record Position(int x, int y, BoardSize boardSize) {
 
     boolean isLastColumn(){
         return x == boardSize().width()-1;
+    }
+
+    public Stream<Position> walkLeft(){
+        return IntStream.rangeClosed(0, x)
+                .mapToObj(i -> new Position(x - i, y, boardSize));
+    }
+
+
+    public Stream<Position> walkRight(){
+        return IntStream.rangeClosed(x, boardSize().width()-1)
+                .mapToObj(i -> new Position(i, y, boardSize));
+    }
+    public Stream<Position> walkUp(){
+        return IntStream.rangeClosed(0, y)
+                .mapToObj(i -> new Position(x, y-i, boardSize));
+    }
+    public Stream<Position> walkDown(){
+        return IntStream.rangeClosed(y, boardSize().height()-1)
+                .mapToObj(i -> new Position(x, i, boardSize));
+    }
+
+    public static void main(String[] args) {
+        BoardSize boardSize = new BoardSize(10,10);
+        Position position = new Position(5, 5, boardSize);
+        System.out.println("Left: ");
+        position.walkLeft().forEach(System.out::println);
+        System.out.println("Right: ");
+        position.walkRight().forEach(System.out::println);
+        System.out.println("Up: ");
+        position.walkUp().forEach(System.out::println);
+        System.out.println("Down: ");
+        position.walkDown().forEach(System.out::println);
     }
 }
