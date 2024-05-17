@@ -86,8 +86,8 @@ public class CandycrushController {
         speelbord.getChildren().add(view);
         //view.setOnMouseClicked(this::onCandyClicked);
 
-        model3.updateBoard();
-        PositionScorePair scorePair = model3.solve();
+        model1.updateBoard();
+        PositionScorePair scorePair = model1.solve();
         for(PositionPairs pair : scorePair.pairs()) {
             System.out.print(
                     "(r" + (pair.position1().x()+1) + ",c" + (pair.position1().y()+1) + ")" +
