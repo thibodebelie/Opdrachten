@@ -3,8 +3,6 @@ package be.kuleuven.candycrush.model;
 
 import be.kuleuven.candycrush.model.candies.*;
 import com.google.common.collect.Streams;
-import javafx.geometry.Pos;
-import javafx.scene.control.skin.SliderSkin;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -14,15 +12,23 @@ import java.util.stream.Stream;
 public class CandycrushModel {
     private String speler;
 
-    private int score;
+    private int score =0;
 
     private Board<Candy> board;
+    private BoardSize boardSize;
 
 
 
     public CandycrushModel(String speler) {
         this.speler = speler;
-        this.board = new Board<>(new BoardSize(10 ,10), this::getRandomCandy);
+        boardSize = new BoardSize(10,10);
+        this.board = new Board<>(boardSize, this::getRandomCandy);
+    }
+    public CandycrushModel(String speler, BoardSize boardsize) {
+        this.speler = speler;
+        this.boardSize = boardsize;
+        this.board = new Board<>(boardSize, this::getRandomCandy);
+
     }
 
     public String getSpeler() {
@@ -31,7 +37,7 @@ public class CandycrushModel {
 
 
     public BoardSize getBoardSize(){
-        return board.boardSize;
+        return board.getBoardSize();
     }
 
     public void candyWithIndexSelected(Position position){
@@ -59,7 +65,7 @@ public class CandycrushModel {
             case 2 -> new RareCandy();
             case 3 -> new RowSnapper();
             case 4 -> new TurnMaster();
-            default -> new normalCandy(random.nextInt(4));
+            default -> new NormalCandy(random.nextInt(4));
         };
 
         return randomCandy;
@@ -182,7 +188,124 @@ public class CandycrushModel {
 
     }
 
+    // Backtracking code:
+    public static CandycrushModel createBoardFromString(String configuration) {
+        var lines = configuration.toLowerCase().lines().toList();
+        BoardSize size = new BoardSize(lines.size(), lines.getFirst().length());
+        var model = new CandycrushModel("Recursie", size); // deze moet je zelf voorzien
+        for (int col = 0; col < lines.size(); col++) {
+            var line = lines.get(col);
+            for (int row = 0; row < line.length(); row++) {
+                model.board.replaceCellAt(new Position(row, col, size), characterToCandy(line.charAt(row)));
+            }
+        }
+        return model;
+    }
+    private static Candy characterToCandy(char c) {
+        return switch(c) {
+            case '.' -> null;
+            case 'o' -> new NormalCandy(0);
+            case '*' -> new NormalCandy(1);
+            case '#' -> new NormalCandy(2);
+            case '@' -> new NormalCandy(3);
+            default -> throw new IllegalArgumentException("Unexpected value: " + c);
+        };
+    }
 
+    public  PositionScorePair solve() {
+        PositionScorePair currentSwaps = new PositionScorePair(new ArrayList<>(), 0);
+        PositionScorePair highestSwaps = new PositionScorePair(new ArrayList<>(), 0);
+        return findMaximzeScore(currentSwaps, highestSwaps);
+    }
+
+    private  PositionScorePair findMaximzeScore(PositionScorePair current, PositionScorePair heighest) {
+        if(this.findAllSwaps().isEmpty()) {
+            return this.getBestResult(current, heighest);
+        }
+        for(PositionPairs pair : this.findAllSwaps()) {
+            Board<Candy> boardCopy = new Board<>(this.board.getBoardSize(), this::getRandomCandy);
+            this.board.copyTo(boardCopy);
+
+            PositionScorePair copyCurrent = new PositionScorePair(new ArrayList<>(), 0);
+            copyCurrent.changeScore(current.score());
+            copyCurrent.pairs().addAll(current.pairs());
+
+            this.board = swapPositions(pair.position1(), pair.position2(), this.board);
+            current.pairs().add(pair);
+            updateBoard();
+
+            current = current.changeScore(this.score(this.board));
+            heighest = findMaximzeScore(current, heighest);
+
+            board = boardCopy;
+            current = copyCurrent;
+        }
+        return heighest;
+    }
+
+    public PositionScorePair getBestResult(PositionScorePair current, PositionScorePair heighest) {
+        if(current.score() > heighest.score()) {
+            return current;
+        }
+        else if(current.score() == heighest.score()) {
+            if(current.pairs().size() < heighest.pairs().size()) {
+                return current;
+            }
+            else {
+                return heighest;
+            }
+        }
+        else {
+            return heighest;
+        }
+    }
+
+    public int score(Board<Candy> board){
+        int score = 0;
+        score = this.board.getList().values().stream()
+                .filter(a -> a instanceof EmptyCandy).toList().size();
+        return score;
+    }
+
+    public Set<PositionPairs> findAllSwaps() {
+        Set<PositionPairs> positionPairs= new HashSet<>();
+        var swaps = new int[][] {
+                {0, -1}, {1,0}
+        };
+        for(Map.Entry<Position, Candy> poscan : board.getList().entrySet()) {
+            for(var swap : swaps) {
+                if(poscan.getKey().x() + swap[0] > board.boardSize.width() - 1 || poscan.getKey().x() + swap[0] < 0) {continue;}
+                if(poscan.getKey().y() + swap[1] > board.boardSize.height() - 1|| poscan.getKey().y() + swap[1] < 0) {continue;}
+                Position newPosition = new Position(poscan.getKey().x() + swap[0], poscan.getKey().y() + swap[1], this.getBoardSize());
+                if (isValidSwap(poscan.getKey(), newPosition)) {
+                    positionPairs.add(new PositionPairs(poscan.getKey(), newPosition));
+                }
+            }
+        }
+        return positionPairs;
+    }
+
+    private boolean isValidSwap(Position beginPosition, Position endPosition) {
+        if(beginPosition.equals(endPosition)) {return false;}
+        if(board.getCellAt(beginPosition) instanceof EmptyCandy || board.getCellAt(endPosition) instanceof EmptyCandy) {return false;}
+        Board<Candy> boardCopy = new Board<>(this.board.getBoardSize(), this::getRandomCandy);
+        this.board.copyTo(boardCopy);
+        this.board = swapPositions(beginPosition, endPosition, this.board);
+        if(!findAllMatches().isEmpty()) {
+            this.board = boardCopy;
+            return true;
+        }
+        this.board = boardCopy;
+        return false;
+    }
+
+
+    private Board<Candy> swapPositions(Position beginPosition, Position endPosition, Board<Candy> board) {
+        Candy tempCandy = board.getCellAt(endPosition);
+        board.replaceCellAt(endPosition, board.getCellAt(beginPosition));
+        board.replaceCellAt(beginPosition, tempCandy);
+        return board;
+    }
 
 
 

@@ -1,17 +1,16 @@
 package be.kuleuven.candycrush.model;
-import be.kuleuven.candycrush.model.candies.normalCandy;
+import be.kuleuven.candycrush.model.candies.NormalCandy;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.util.Objects;
 import java.util.function.Function;
-import be.kuleuven.candycrush.model.*;
+
 public class BoardTest {
 
     @Test
     public void testFill() {
         BoardSize boardSize = new BoardSize(5, 5); // Assuming BoardSize is a class with a constructor that takes width and height
-        Function<Position, Candy> cellCreator = position -> new normalCandy(0); // Replace T with your actual class
+        Function<Position, Candy> cellCreator = position -> new NormalCandy(0); // Replace T with your actual class
 
         Board<Candy> board = new Board<>(boardSize, cellCreator);
 
@@ -26,7 +25,7 @@ public class BoardTest {
     @Test
     public void testCopyTo() {
         BoardSize boardSize = new BoardSize(5, 5);
-        Function<Position, Candy> cellCreator = position -> new normalCandy(0);
+        Function<Position, Candy> cellCreator = position -> new NormalCandy(0);
 
         Board<Candy> board1 = new Board<>(boardSize, cellCreator);
         Board<Candy> board2 = new Board<>(boardSize, cellCreator);

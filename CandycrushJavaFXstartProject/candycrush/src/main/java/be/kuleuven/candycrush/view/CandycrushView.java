@@ -9,10 +9,7 @@ import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Text;
 import javafx.scene.*;
-import java.util.Collection;
-import java.util.Iterator;
 
 import static javafx.scene.paint.Color.color;
 
@@ -48,8 +45,8 @@ public class CandycrushView extends Region {
     }
 
     public Node makeCandyShape(Position position , Candy candy){
-        if( candy instanceof normalCandy){
-            switch(((normalCandy) candy).color()){
+        if( candy instanceof NormalCandy){
+            switch(((NormalCandy) candy).color()){
                 case 0:
                     return new Circle(position.x()* widthCandy + widthCandy/2, position.y() * heigthCandy + heigthCandy/2, widthCandy*.45 , Color.BLUE);
                 case 1:
@@ -60,7 +57,7 @@ public class CandycrushView extends Region {
                     return new Circle(position.x() * widthCandy + widthCandy/2, position.y() * heigthCandy + heigthCandy/2, widthCandy*.45 , Color.YELLOW);
 
                 default:
-                    throw new IllegalStateException("Unexpected value: " + ((normalCandy) candy).color());
+                    throw new IllegalStateException("Unexpected value: " + ((NormalCandy) candy).color());
             }
         }
         else if (candy instanceof EmptyCandy){

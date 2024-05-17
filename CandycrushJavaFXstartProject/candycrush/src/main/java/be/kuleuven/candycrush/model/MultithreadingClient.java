@@ -34,7 +34,7 @@ public class MultithreadingClient extends Thread {
             case 2 -> new RareCandy();
             case 3 -> new RowSnapper();
             case 4 -> new TurnMaster();
-            default -> new normalCandy(random.nextInt(4));
+            default -> new NormalCandy(random.nextInt(4));
         };
 
         return randomCandy;
